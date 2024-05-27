@@ -9,6 +9,11 @@ import static ru.gustaff.teacher_rerister.repository.util.SchoolSubjectRepositor
 
 public class SchoolSubjectJdbcRepository extends AbstractJdbcRepository<SchoolSubject> {
 
+    public static final SchoolSubjectJdbcRepository SCHOOL_SUBJECT_JDBC_REPOSITORY = new SchoolSubjectJdbcRepository();
+
+    private SchoolSubjectJdbcRepository() {
+    }
+
     @Override
     public SchoolSubject save(SchoolSubject schoolSubject) {
         return defaultSave(schoolSubject, GET_SUBJECT_ID_BY_NAME);

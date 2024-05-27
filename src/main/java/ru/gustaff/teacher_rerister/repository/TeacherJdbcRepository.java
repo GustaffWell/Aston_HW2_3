@@ -10,12 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static ru.gustaff.teacher_rerister.repository.SchoolClassJdbcRepository.SCHOOL_CLASS_JDBC_REPOSITORY;
 import static ru.gustaff.teacher_rerister.repository.util.SchoolSubjectRepositoryUtils.SELECT_SUBJECT;
 import static ru.gustaff.teacher_rerister.repository.util.TeacherRepositoryUtils.*;
 
 public class TeacherJdbcRepository extends AbstractJdbcRepository<Teacher> {
 
-    private SchoolClassJdbcRepository schoolClassJdbcRepository = new SchoolClassJdbcRepository();
+    public static final TeacherJdbcRepository TEACHER_JDBC_REPOSITORY = new TeacherJdbcRepository();
+
+    private TeacherJdbcRepository() {
+    }
 
     @Override
     public Teacher get(int id) {
@@ -87,7 +91,7 @@ public class TeacherJdbcRepository extends AbstractJdbcRepository<Teacher> {
         try (Connection connection = DbConnection.getConnection()) {
             connection.setAutoCommit(false);
             defaultDelete(id, DELETE_FROM_TEACHER_SUBJECT_BY_TEACHER_ID, connection);
-            schoolClassJdbcRepository.addOrRemoveTeacher(id, null);
+            SCHOOL_CLASS_JDBC_REPOSITORY.addOrRemoveTeacher(id, null, connection);
             result = defaultDelete(id, DELETE_TEACHER, connection);
             connection.commit();
         } catch (SQLException e) {
@@ -103,6 +107,24 @@ public class TeacherJdbcRepository extends AbstractJdbcRepository<Teacher> {
             if (isObjectExistInDb(teacherId, connection, GET_TEACHER_WITHOUT_CLASSES_AND_SUBJECTS) &&
                     isObjectExistInDb(subjectId, connection, SELECT_SUBJECT)) {
                 insertToTeacherSubjectTable(teacherId, subjectId, connection);
+                result = true;
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean deleteSubject(int teacherId, int subjectId) {
+        boolean result = false;
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SUBJECT_FROM_TEACHER_SUBJECT)) {
+
+            preparedStatement.setInt(1, teacherId);
+            preparedStatement.setInt(2, subjectId);
+            int deletedRows = preparedStatement.executeUpdate();
+            if (deletedRows > 0) {
                 result = true;
             }
         } catch (SQLException e) {

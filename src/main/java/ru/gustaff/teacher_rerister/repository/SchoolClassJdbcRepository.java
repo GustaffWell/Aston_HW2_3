@@ -1,14 +1,21 @@
 package ru.gustaff.teacher_rerister.repository;
 
-import org.postgresql.core.BaseConnection;
 import ru.gustaff.teacher_rerister.model.SchoolClass;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import static ru.gustaff.teacher_rerister.repository.util.SchoolClassRepositoryUtils.*;
 
 public class SchoolClassJdbcRepository extends AbstractJdbcRepository<SchoolClass> {
+
+    public static final SchoolClassJdbcRepository SCHOOL_CLASS_JDBC_REPOSITORY = new SchoolClassJdbcRepository();
+
+    private SchoolClassJdbcRepository() {
+    }
 
     @Override
     public SchoolClass save(SchoolClass schoolClass) {
@@ -37,10 +44,18 @@ public class SchoolClassJdbcRepository extends AbstractJdbcRepository<SchoolClas
     }
 
     public boolean addOrRemoveTeacher (int classId, Integer teacherId) {
-        String sql = teacherId == null ? REMOVE_TEACHER_FROM_CLASS : ADD_TEACHER_TO_CLASS;
-        try (Connection connection = DbConnection.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        boolean result = false;
+        try (Connection connection = DbConnection.getConnection()) {
+            result = addOrRemoveTeacher(classId, teacherId, connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
+    protected boolean addOrRemoveTeacher (int classId, Integer teacherId, Connection connection) {
+        String sql = teacherId == null ? REMOVE_TEACHER_FROM_CLASS : ADD_TEACHER_TO_CLASS;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             if (teacherId != null) {
                 preparedStatement.setInt(1, teacherId);
                 preparedStatement.setInt(2, classId);

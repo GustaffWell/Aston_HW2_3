@@ -64,4 +64,10 @@ public class TeacherRepositoryUtils {
                     INSERT INTO teacher_subject (teacher_id, subject_id)
                     VALUES (?, ?);
                     """;
+
+    public static final String DELETE_SUBJECT_FROM_TEACHER_SUBJECT =
+            """
+                    DELETE FROM teacher_subject
+                    WHERE teacher_id=? AND subject_id=?;
+                    """;
 }

@@ -3,8 +3,6 @@ package ru.gustaff.teacher_rerister.service.converters;
 import ru.gustaff.teacher_rerister.dto.SchoolClassDto;
 import ru.gustaff.teacher_rerister.dto.SchoolSubjectDto;
 import ru.gustaff.teacher_rerister.dto.TeacherDto;
-import ru.gustaff.teacher_rerister.model.SchoolClass;
-import ru.gustaff.teacher_rerister.model.SchoolSubject;
 import ru.gustaff.teacher_rerister.model.Teacher;
 
 import java.util.List;
@@ -32,13 +30,13 @@ public class TeacherDtoJsonConverter extends AbstractDtoJsonConverter<TeacherDto
     }
 
     public Teacher createDao(TeacherDto teacherDto, int yearOfBirth) {
-        List<SchoolSubject> subjects = teacherDto.getSubjects().stream()
-                .map(subjectDto -> SCHOOL_SUBJECT_DTO_JSON_CONVERTER.createDao(subjectDto, yearOfBirth))
-                .toList();
-        List<SchoolClass> classes = teacherDto.getClasses().stream()
-                .map(classDto -> SCHOOL_CLASS_DTO_JSON_CONVERTER.createDao(classDto, yearOfBirth))
-                .toList();
+//        List<SchoolSubject> subjects = teacherDto.getSubjects().stream()
+//                .map(subjectDto -> SCHOOL_SUBJECT_DTO_JSON_CONVERTER.createDao(subjectDto, yearOfBirth))
+//                .toList();
+//        List<SchoolClass> classes = teacherDto.getClasses().stream()
+//                .map(classDto -> SCHOOL_CLASS_DTO_JSON_CONVERTER.createDao(classDto, yearOfBirth))
+//                .toList();
         return new Teacher(teacherDto.getId(), teacherDto.getName(), yearOfBirth,
-                subjects, classes);
+                null, null);
     }
 }

@@ -2,10 +2,8 @@ package ru.gustaff.teacher_rerister.service;
 
 import ru.gustaff.teacher_rerister.dto.TeacherDto;
 import ru.gustaff.teacher_rerister.model.Teacher;
-import ru.gustaff.teacher_rerister.repository.SchoolClassJdbcRepository;
 import ru.gustaff.teacher_rerister.repository.TeacherJdbcRepository;
 
-import java.io.IOException;
 import java.util.List;
 
 import static ru.gustaff.teacher_rerister.service.converters.TeacherDtoJsonConverter.TEACHER_DTO_JSON_CONVERTER;
@@ -13,18 +11,16 @@ import static ru.gustaff.teacher_rerister.service.converters.TeacherDtoJsonConve
 public class TeacherService {
 
     private final TeacherJdbcRepository teacherJdbcRepository;
-    private final SchoolClassJdbcRepository schoolClassJdbcRepository;
 
     public TeacherService() {
-        this.teacherJdbcRepository = new TeacherJdbcRepository();
-        this.schoolClassJdbcRepository = new SchoolClassJdbcRepository();
+        teacherJdbcRepository = TeacherJdbcRepository.TEACHER_JDBC_REPOSITORY;
     }
 
-    public TeacherDto getTeacher(int id) {
+    public TeacherDto get(int id) {
         return TEACHER_DTO_JSON_CONVERTER.createDto(teacherJdbcRepository.get(id));
     }
 
-    public List<TeacherDto> getAllTeachers() {
+    public List<TeacherDto> getAll() {
         return teacherJdbcRepository.getAll().stream()
                 .map(TEACHER_DTO_JSON_CONVERTER::createDto)
                 .toList();
@@ -32,18 +28,18 @@ public class TeacherService {
 
     public void save(TeacherDto teacherDto, int yearOfBirth) {
         Teacher teacher = TEACHER_DTO_JSON_CONVERTER.createDao(teacherDto, yearOfBirth);
-        Teacher newTeacher = teacherJdbcRepository.save(teacher);
-        System.out.println(newTeacher);
+        teacherJdbcRepository.save(teacher);
     }
 
-    public void delete(int id) {
-        boolean result = teacherJdbcRepository.delete(id);
-        System.out.println(result);
+    public boolean delete(int id) {
+        return teacherJdbcRepository.delete(id);
     }
 
-    public static void main(String[] args) throws IOException {
-        TeacherService service = new TeacherService();
+    public boolean addSubject (int teacherId, int subjectId) {
+        return teacherJdbcRepository.addSubject(teacherId, subjectId);
+    }
 
-            service.schoolClassJdbcRepository.addOrRemoveTeacher(100012, 100000);
+    public boolean deleteSubject (int teacherId, int subjectId) {
+        return teacherJdbcRepository.deleteSubject(teacherId, subjectId);
     }
 }
