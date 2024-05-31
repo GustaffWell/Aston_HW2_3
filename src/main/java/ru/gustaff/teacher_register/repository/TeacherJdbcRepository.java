@@ -82,7 +82,7 @@ public class TeacherJdbcRepository extends AbstractJdbcRepository<Teacher> {
 
     @Override
     public Teacher save(Teacher teacher) {
-       return defaultSave(teacher, GET_TEACHER_ID_BY_NAME);
+       return defaultSave(teacher, GET_TEACHER_ID_BY_NAME, GET_TEACHER_WITHOUT_CLASSES_AND_SUBJECTS);
     }
 
     @Override
@@ -91,13 +91,22 @@ public class TeacherJdbcRepository extends AbstractJdbcRepository<Teacher> {
         try (Connection connection = DbConnection.getConnection()) {
             connection.setAutoCommit(false);
             defaultDelete(id, DELETE_FROM_TEACHER_SUBJECT_BY_TEACHER_ID, connection);
-            SCHOOL_CLASS_JDBC_REPOSITORY.addOrRemoveTeacher(id, null, connection);
+            removeTeacherFromClasses(id, connection);
             result = defaultDelete(id, DELETE_TEACHER, connection);
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
+    }
+
+    private void removeTeacherFromClasses(int teacherId, Connection connection) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_TEACHER_FROM_CLASSES)) {
+            preparedStatement.setInt(1, teacherId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean addSubject(int teacherId, int subjectId) {

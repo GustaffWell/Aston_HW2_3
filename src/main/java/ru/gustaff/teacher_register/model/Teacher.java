@@ -8,9 +8,9 @@ public class Teacher extends AbstractBaseEntity{
     private List<SchoolSubject> subjects;
     private List<SchoolClass> supervisedClasses;
 
-    public Teacher(Integer id, String name, int age, List<SchoolSubject> subjects, List<SchoolClass> supervisedClasses) {
+    public Teacher(Integer id, String name, int yearOfBirth, List<SchoolSubject> subjects, List<SchoolClass> supervisedClasses) {
         super(id, name);
-        this.yearOfBirth = age;
+        this.yearOfBirth = yearOfBirth;
         this.subjects = subjects;
         this.supervisedClasses = supervisedClasses;
     }

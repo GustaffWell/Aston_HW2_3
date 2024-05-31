@@ -16,7 +16,7 @@ public class SchoolSubjectJdbcRepository extends AbstractJdbcRepository<SchoolSu
 
     @Override
     public SchoolSubject save(SchoolSubject schoolSubject) {
-        return defaultSave(schoolSubject, GET_SUBJECT_ID_BY_NAME);
+        return defaultSave(schoolSubject, GET_SUBJECT_ID_BY_NAME, SELECT_SUBJECT);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class SchoolSubjectJdbcRepository extends AbstractJdbcRepository<SchoolSu
 
     @Override
     public SchoolSubject get(int id) {
-        return defaultGet(id, SELECT_SUBJECT);
+        return defaultGet(id, SELECT_SUBJECT, DbConnection.getConnection());
     }
 
     @Override

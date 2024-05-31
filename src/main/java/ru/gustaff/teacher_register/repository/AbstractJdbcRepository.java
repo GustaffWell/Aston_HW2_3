@@ -8,11 +8,9 @@ import java.util.List;
 
 public abstract class AbstractJdbcRepository<T extends AbstractBaseEntity> implements BaseRepository<T> {
 
-    protected T defaultGet(int id, String sql) {
+    protected T defaultGet(int id, String sql, Connection connection) {
         T object = null;
-        try (Connection connection = DbConnection.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -41,12 +39,12 @@ public abstract class AbstractJdbcRepository<T extends AbstractBaseEntity> imple
 
     protected abstract T getNewObject(ResultSet rs) throws SQLException ;
 
-    protected T defaultSave(T object, String sql) {
+    protected T defaultSave(T object, String sqlSave, String sqlGet) {
         try (Connection connection = DbConnection.getConnection()){
             connection.setAutoCommit(false);
             if (object.getId() == null) {
                 create(object, connection);
-                int newId = getIdByName(object.getName(), connection, sql);
+                int newId = getIdByName(object.getName(), connection, sqlSave);
                 object.setId(newId);
             } else {
                 int updatedRows = update(object, connection);
@@ -54,6 +52,7 @@ public abstract class AbstractJdbcRepository<T extends AbstractBaseEntity> imple
                     return null;
                 }
             }
+            object = defaultGet(object.getId(), sqlGet, connection);
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,7 +62,6 @@ public abstract class AbstractJdbcRepository<T extends AbstractBaseEntity> imple
 
     protected boolean defaultDelete(int id, String sql, Connection connection) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
             preparedStatement.setInt(1, id);
             int deletedRows = preparedStatement.executeUpdate();
             if (deletedRows == 0) {

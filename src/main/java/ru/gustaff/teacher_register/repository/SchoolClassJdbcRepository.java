@@ -19,7 +19,7 @@ public class SchoolClassJdbcRepository extends AbstractJdbcRepository<SchoolClas
 
     @Override
     public SchoolClass save(SchoolClass schoolClass) {
-        return defaultSave(schoolClass, GET_CLASS_ID_BY_NAME);
+        return defaultSave(schoolClass, GET_CLASS_ID_BY_NAME, SELECT_CLASS);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class SchoolClassJdbcRepository extends AbstractJdbcRepository<SchoolClas
 
     @Override
     public SchoolClass get(int id) {
-        return defaultGet(id, SELECT_CLASS);
+        return defaultGet(id, SELECT_CLASS, DbConnection.getConnection());
     }
 
     @Override
