@@ -5,7 +5,7 @@ import ru.gustaff.teacher_register.model.Teacher;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeacherTestData {
+public class TeacherRepositoryTestData {
     public static Teacher TEACHER_1 = new Teacher(100000, "Прокудина Марина Ивановна", 1965,
             new ArrayList<>(), new ArrayList<>());
     public static Teacher TEACHER_2 = new Teacher(100001, "Даммер Манана Дмитриевна", 1975,

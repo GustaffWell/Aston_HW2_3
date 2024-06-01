@@ -26,9 +26,10 @@ public class TeacherService {
                 .toList();
     }
 
-    public void save(TeacherDto teacherDto, int yearOfBirth) {
+    public boolean save(TeacherDto teacherDto, int yearOfBirth) {
         Teacher teacher = TEACHER_DTO_JSON_CONVERTER.createDao(teacherDto, yearOfBirth);
-        teacherJdbcRepository.save(teacher);
+        Teacher savedTeacher = teacherJdbcRepository.save(teacher);
+        return savedTeacher != null;
     }
 
     public boolean delete(int id) {

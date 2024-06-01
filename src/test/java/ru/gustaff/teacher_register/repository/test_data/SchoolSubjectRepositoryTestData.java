@@ -4,7 +4,7 @@ import ru.gustaff.teacher_register.model.SchoolSubject;
 
 import java.util.List;
 
-public class SchoolSubjectTestData {
+public class SchoolSubjectRepositoryTestData {
     public static final SchoolSubject SUBJECT_1 = new SchoolSubject(100_003, "Русский язык", 5);
     public static final SchoolSubject SUBJECT_2 = new SchoolSubject(100_004, "Литература", 3);
     public static final SchoolSubject SUBJECT_3 = new SchoolSubject(100_005, "Физика", 2);

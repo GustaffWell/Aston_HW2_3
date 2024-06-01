@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import ru.gustaff.teacher_register.model.SchoolSubject;
 
 import static ru.gustaff.teacher_register.repository.SchoolSubjectJdbcRepository.SCHOOL_SUBJECT_JDBC_REPOSITORY;
-import static ru.gustaff.teacher_register.repository.test_data.SchoolSubjectTestData.*;
+import static ru.gustaff.teacher_register.repository.test_data.SchoolSubjectRepositoryTestData.*;
 
 public class SchoolSubjectJdbcRepositoryTest extends BaseTest {
 

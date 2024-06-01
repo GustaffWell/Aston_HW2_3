@@ -1,5 +1,7 @@
 package ru.gustaff.teacher_register.dto;
 
+import java.util.Objects;
+
 public class SchoolClassDto {
 
     private Integer id;
@@ -17,7 +19,7 @@ public class SchoolClassDto {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -35,5 +37,18 @@ public class SchoolClassDto {
                 "id=" + id +
                 ", numberAndLetter='" + numberAndLetter + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SchoolClassDto that = (SchoolClassDto) o;
+        return Objects.equals(id, that.id) && Objects.equals(numberAndLetter, that.numberAndLetter);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, numberAndLetter);
     }
 }

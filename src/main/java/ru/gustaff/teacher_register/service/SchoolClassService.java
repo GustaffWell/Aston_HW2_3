@@ -1,6 +1,7 @@
 package ru.gustaff.teacher_register.service;
 
 import ru.gustaff.teacher_register.dto.SchoolClassDto;
+import ru.gustaff.teacher_register.model.SchoolClass;
 import ru.gustaff.teacher_register.repository.SchoolClassJdbcRepository;
 
 import java.util.List;
@@ -16,8 +17,9 @@ public class SchoolClassService {
         schoolClassJdbcRepository = SCHOOL_CLASS_JDBC_REPOSITORY;
     }
 
-    public void save(SchoolClassDto schoolClassDto, int studentsCount) {
-        schoolClassJdbcRepository.save(SCHOOL_CLASS_DTO_JSON_CONVERTER.createDao(schoolClassDto, studentsCount));
+    public boolean save(SchoolClassDto schoolClassDto, int studentsCount) {
+        SchoolClass schoolClass = schoolClassJdbcRepository.save(SCHOOL_CLASS_DTO_JSON_CONVERTER.createDao(schoolClassDto, studentsCount));
+        return schoolClass != null;
     }
 
     public boolean delete(int id) {

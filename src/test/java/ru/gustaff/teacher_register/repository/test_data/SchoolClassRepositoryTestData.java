@@ -4,7 +4,7 @@ import ru.gustaff.teacher_register.model.SchoolClass;
 
 import java.util.List;
 
-public class SchoolClassTestData {
+public class SchoolClassRepositoryTestData {
     public static final SchoolClass SCHOOL_CLASS_1 = new SchoolClass(100_012,"11а", 28);
     public static final SchoolClass SCHOOL_CLASS_2 = new SchoolClass(100_013,"11б", 25);
     public static final SchoolClass SCHOOL_CLASS_3 = new SchoolClass(100_014,"10а", 23);
