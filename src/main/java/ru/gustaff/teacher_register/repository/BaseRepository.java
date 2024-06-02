@@ -2,7 +2,8 @@ package ru.gustaff.teacher_register.repository;
 
 import java.util.List;
 
-public interface BaseRepository <T>{
+public interface BaseRepository <T> {
+
     // null if not found, when updated
     T save(T object);
 

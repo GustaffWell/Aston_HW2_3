@@ -43,8 +43,9 @@ public class TeacherServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         StringBuilder teacherDtoString = new StringBuilder();
         BufferedReader reader = req.getReader();
-        while (reader.ready()) {
-            teacherDtoString.append(reader.readLine());
+        String line;
+        while ((line = reader.readLine()) != null) {
+            teacherDtoString.append(line);
         }
         TeacherDto teacherDto = TEACHER_DTO_JSON_CONVERTER.fromJson(teacherDtoString.toString());
         int yearOfBirth = Integer.parseInt(req.getParameter("year-of-birth"));

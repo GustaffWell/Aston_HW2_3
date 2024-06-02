@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Teacher extends AbstractBaseEntity{
+
     private int yearOfBirth;
     private List<SchoolSubject> subjects;
     private List<SchoolClass> supervisedClasses;

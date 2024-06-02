@@ -2,6 +2,7 @@ package ru.gustaff.teacher_register.repository;
 
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import ru.gustaff.teacher_register.BaseTest;
 import ru.gustaff.teacher_register.model.Teacher;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import static ru.gustaff.teacher_register.repository.TeacherJdbcRepository.TEACHER_JDBC_REPOSITORY;
 import static ru.gustaff.teacher_register.repository.test_data.TeacherRepositoryTestData.*;
 
-public class TeacherJdbcRepositoryTest extends BaseTest{
+public class TeacherJdbcRepositoryTest extends BaseTest {
 
     @Test
     public void getById() {

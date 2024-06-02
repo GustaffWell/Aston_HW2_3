@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.gustaff.teacher_register.dto.SchoolClassDto;
-import ru.gustaff.teacher_register.dto.TeacherDto;
 import ru.gustaff.teacher_register.service.SchoolClassService;
 
 import java.io.BufferedReader;
@@ -15,7 +14,6 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import static ru.gustaff.teacher_register.service.converters.SchoolClassDtoJsonConverter.SCHOOL_CLASS_DTO_JSON_CONVERTER;
-import static ru.gustaff.teacher_register.service.converters.TeacherDtoJsonConverter.TEACHER_DTO_JSON_CONVERTER;
 
 @WebServlet("/class")
 public class SchoolClassServlet extends HttpServlet {
@@ -45,8 +43,9 @@ public class SchoolClassServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         StringBuilder schoolClassDtoString = new StringBuilder();
         BufferedReader reader = req.getReader();
-        while (reader.ready()) {
-            schoolClassDtoString.append(reader.readLine());
+        String line;
+        while ((line = reader.readLine()) != null) {
+            schoolClassDtoString.append(line);
         }
         SchoolClassDto schoolClassDto = SCHOOL_CLASS_DTO_JSON_CONVERTER.fromJson(schoolClassDtoString.toString());
         int studentsCount = Integer.parseInt(req.getParameter("students-count"));

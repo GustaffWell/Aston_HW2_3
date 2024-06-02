@@ -1,6 +1,7 @@
 package ru.gustaff.teacher_register.model;
 
 public abstract class AbstractBaseEntity {
+
     private Integer id;
     private String name;
 

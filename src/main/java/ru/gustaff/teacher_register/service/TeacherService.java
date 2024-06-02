@@ -17,7 +17,11 @@ public class TeacherService {
     }
 
     public TeacherDto get(int id) {
-        return TEACHER_DTO_JSON_CONVERTER.createDto(teacherJdbcRepository.get(id));
+        Teacher teacher = teacherJdbcRepository.get(id);
+        if (teacher == null) {
+            return null;
+        }
+        return TEACHER_DTO_JSON_CONVERTER.createDto(teacher);
     }
 
     public List<TeacherDto> getAll() {

@@ -3,6 +3,7 @@ package ru.gustaff.teacher_register.repository;
 import ru.gustaff.teacher_register.model.SchoolClass;
 import ru.gustaff.teacher_register.model.SchoolSubject;
 import ru.gustaff.teacher_register.model.Teacher;
+import ru.gustaff.teacher_register.repository.util.DbConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ru.gustaff.teacher_register.repository.SchoolClassJdbcRepository.SCHOOL_CLASS_JDBC_REPOSITORY;
 import static ru.gustaff.teacher_register.repository.util.SchoolSubjectRepositoryUtils.SELECT_SUBJECT;
 import static ru.gustaff.teacher_register.repository.util.TeacherRepositoryUtils.*;
 
@@ -25,7 +25,7 @@ public class TeacherJdbcRepository extends AbstractJdbcRepository<Teacher> {
     public Teacher get(int id) {
         Teacher teacher = null;
         try (Connection connection = DbConnection.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(GET_TEACHER)){
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_TEACHER)){
 
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -33,14 +33,16 @@ public class TeacherJdbcRepository extends AbstractJdbcRepository<Teacher> {
                 if (teacher == null) {
                     teacher = getNewObject(resultSet);
                 }
-                SchoolSubject schoolSubject = new SchoolSubject(resultSet.getInt(4), resultSet.getString(5),
+                int subjectId  = resultSet.getInt(4);
+                SchoolSubject schoolSubject = new SchoolSubject(subjectId, resultSet.getString(5),
                         resultSet.getInt(6));
-                if (!teacher.getSubjects().contains(schoolSubject)) {
+                if (subjectId != 0 && !teacher.getSubjects().contains(schoolSubject)) {
                     teacher.getSubjects().add(schoolSubject);
                 }
-                SchoolClass schoolClass = new SchoolClass(resultSet.getInt(7), resultSet.getString(8),
+                int classsId = resultSet.getInt(7);
+                SchoolClass schoolClass = new SchoolClass(classsId, resultSet.getString(8),
                         resultSet.getInt(9));
-                if (!teacher.getSupervisedClasses().contains(schoolClass)) {
+                if (classsId != 0 && !teacher.getSupervisedClasses().contains(schoolClass)) {
                     teacher.getSupervisedClasses().add(schoolClass);
                 }
             }
@@ -59,16 +61,18 @@ public class TeacherJdbcRepository extends AbstractJdbcRepository<Teacher> {
             while (resultSet.next()) {
                 int teacherId = resultSet.getInt(1);
                 Teacher teacher = getNewObject(resultSet);
-                SchoolSubject schoolSubject = new SchoolSubject(resultSet.getInt(4), resultSet.getString(5),
+                int subjectId = resultSet.getInt(4);
+                SchoolSubject schoolSubject = new SchoolSubject(subjectId, resultSet.getString(5),
                         resultSet.getInt(6));
-                SchoolClass schoolClass = new SchoolClass(resultSet.getInt(7), resultSet.getString(8),
+                int classId = resultSet.getInt(7);
+                SchoolClass schoolClass = new SchoolClass(classId, resultSet.getString(8),
                         resultSet.getInt(9));
                 teachers.putIfAbsent(teacherId, teacher);
                 teachers.compute(teacherId, (k, v) -> {
-                    if (!v.getSubjects().contains(schoolSubject)) {
+                    if (subjectId != 0 && !v.getSubjects().contains(schoolSubject)) {
                         v.getSubjects().add(schoolSubject);
                     }
-                    if (!v.getSupervisedClasses().contains(schoolClass)) {
+                    if (classId != 0 && !v.getSupervisedClasses().contains(schoolClass)) {
                         v.getSupervisedClasses().add(schoolClass);
                     }
                     return v;

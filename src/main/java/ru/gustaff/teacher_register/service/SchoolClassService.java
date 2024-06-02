@@ -27,7 +27,11 @@ public class SchoolClassService {
     }
 
     public SchoolClassDto get(int id) {
-        return SCHOOL_CLASS_DTO_JSON_CONVERTER.createDto(schoolClassJdbcRepository.get(id));
+        SchoolClass schoolClass = schoolClassJdbcRepository.get(id);
+        if (schoolClass == null) {
+            return null;
+        }
+        return SCHOOL_CLASS_DTO_JSON_CONVERTER.createDto(schoolClass);
     }
 
     public List<SchoolClassDto> getAll() {

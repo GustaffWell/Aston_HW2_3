@@ -1,6 +1,7 @@
 package ru.gustaff.teacher_register.repository;
 
 import ru.gustaff.teacher_register.model.SchoolClass;
+import ru.gustaff.teacher_register.repository.util.DbConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

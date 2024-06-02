@@ -3,6 +3,7 @@ package ru.gustaff.teacher_register.model;
 import java.util.Objects;
 
 public class SchoolClass extends AbstractBaseEntity {
+
     private int studentsCount;
 
     public SchoolClass(Integer id, String name, int studentsCount) {

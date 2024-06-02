@@ -20,6 +20,7 @@ public class TeacherServiceTestData {
 
     public static TeacherDto NEW_TEACHER_DTO = new TeacherDto(100016, "New Teacher",
             new ArrayList<>(), new ArrayList<>());
+
     public static TeacherDto UPDATED_TEACHER_DTO = new TeacherDto(100_000, "Updated Teacher",
             List.of(SUBJECT_1_DTO, SUBJECT_2_DTO), List.of(SCHOOL_CLASS_1_DTO));
 

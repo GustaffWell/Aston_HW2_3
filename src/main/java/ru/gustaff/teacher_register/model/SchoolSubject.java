@@ -3,6 +3,7 @@ package ru.gustaff.teacher_register.model;
 import java.util.Objects;
 
 public class SchoolSubject extends AbstractBaseEntity {
+
     private int hoursPerWeek;
 
     public SchoolSubject(Integer id, String name, int hoursPerWeek) {

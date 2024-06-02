@@ -1,4 +1,4 @@
-package ru.gustaff.teacher_register.repository;
+package ru.gustaff.teacher_register.repository.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -36,7 +36,7 @@ public class DbConnection {
         Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:tc:postgresql:14.5:///hw?TC_INITSCRIPT=db/initDB.sql",
+            connection = DriverManager.getConnection("jdbc:tc:postgresql:14.5:///hw?TC_DAEMON=true&TC_INITSCRIPT=db/initDB.sql",
                     "test", "test");
         } catch (ClassNotFoundException e) {
             System.err.println("PostgreSQL DataSource unable to load PostgreSQL JDBC Driver");

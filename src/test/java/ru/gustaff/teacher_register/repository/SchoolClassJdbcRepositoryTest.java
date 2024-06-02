@@ -2,6 +2,7 @@ package ru.gustaff.teacher_register.repository;
 
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import ru.gustaff.teacher_register.BaseTest;
 import ru.gustaff.teacher_register.model.SchoolClass;
 
 import static ru.gustaff.teacher_register.repository.SchoolClassJdbcRepository.SCHOOL_CLASS_JDBC_REPOSITORY;
