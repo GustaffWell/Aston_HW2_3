@@ -1,23 +1,27 @@
 package ru.gustaff.teacher_register.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.gustaff.teacher_register.dto.TeacherDto;
-import ru.gustaff.teacher_register.model.Teacher;
-import ru.gustaff.teacher_register.repository.TeacherJdbcRepository;
+import ru.gustaff.teacher_register.entity.Teacher;
+import ru.gustaff.teacher_register.repository.TeacherRepository;
 
 import java.util.List;
 
-import static ru.gustaff.teacher_register.service.converters.TeacherDtoJsonConverter.TEACHER_DTO_JSON_CONVERTER;
+import static ru.gustaff.teacher_register.service.converters.TeacherDtoConverter.TEACHER_DTO_JSON_CONVERTER;
 
+@Service
 public class TeacherService {
 
-    private final TeacherJdbcRepository teacherJdbcRepository;
+    private final TeacherRepository teacherRepository;
 
-    public TeacherService() {
-        teacherJdbcRepository = TeacherJdbcRepository.TEACHER_JDBC_REPOSITORY;
+    @Autowired
+    public TeacherService(TeacherRepository teacherJdbcRepository) {
+        this.teacherRepository = teacherJdbcRepository;
     }
 
     public TeacherDto get(int id) {
-        Teacher teacher = teacherJdbcRepository.get(id);
+        Teacher teacher = teacherRepository.get(id);
         if (teacher == null) {
             return null;
         }
@@ -25,26 +29,19 @@ public class TeacherService {
     }
 
     public List<TeacherDto> getAll() {
-        return teacherJdbcRepository.getAll().stream()
+        return teacherRepository.getAll().stream()
                 .map(TEACHER_DTO_JSON_CONVERTER::createDto)
                 .toList();
     }
 
-    public boolean save(TeacherDto teacherDto, int yearOfBirth) {
+    public TeacherDto save(TeacherDto teacherDto, int yearOfBirth) {
         Teacher teacher = TEACHER_DTO_JSON_CONVERTER.createDao(teacherDto, yearOfBirth);
-        Teacher savedTeacher = teacherJdbcRepository.save(teacher);
-        return savedTeacher != null;
+        Teacher savedTeacher = teacherRepository.save(teacher);
+        return TEACHER_DTO_JSON_CONVERTER.createDto(savedTeacher);
     }
 
     public boolean delete(int id) {
-        return teacherJdbcRepository.delete(id);
+        return teacherRepository.delete(id);
     }
 
-    public boolean addSubject (int teacherId, int subjectId) {
-        return teacherJdbcRepository.addSubject(teacherId, subjectId);
-    }
-
-    public boolean deleteSubject (int teacherId, int subjectId) {
-        return teacherJdbcRepository.deleteSubject(teacherId, subjectId);
-    }
 }

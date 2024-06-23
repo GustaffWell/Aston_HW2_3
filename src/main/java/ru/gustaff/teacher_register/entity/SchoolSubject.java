@@ -1,14 +1,24 @@
-package ru.gustaff.teacher_register.model;
+package ru.gustaff.teacher_register.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import java.util.Objects;
 
+@Entity
+@Table(name = "school_subject", schema = "school")
 public class SchoolSubject extends AbstractBaseEntity {
 
+    @Column(name = "hours_per_week", nullable = false)
     private int hoursPerWeek;
 
     public SchoolSubject(Integer id, String name, int hoursPerWeek) {
         super(id, name);
         this.hoursPerWeek = hoursPerWeek;
+    }
+
+    public SchoolSubject() {
     }
 
     public int getHoursPerWeek() {

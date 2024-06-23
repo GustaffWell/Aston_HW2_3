@@ -1,33 +1,36 @@
 package ru.gustaff.teacher_register.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.gustaff.teacher_register.dto.SchoolClassDto;
-import ru.gustaff.teacher_register.model.SchoolClass;
-import ru.gustaff.teacher_register.repository.SchoolClassJdbcRepository;
+import ru.gustaff.teacher_register.entity.SchoolClass;
+import ru.gustaff.teacher_register.repository.SchoolClassRepository;
 
 import java.util.List;
 
-import static ru.gustaff.teacher_register.repository.SchoolClassJdbcRepository.SCHOOL_CLASS_JDBC_REPOSITORY;
-import static ru.gustaff.teacher_register.service.converters.SchoolClassDtoJsonConverter.SCHOOL_CLASS_DTO_JSON_CONVERTER;
+import static ru.gustaff.teacher_register.service.converters.SchoolClassDtoConverter.SCHOOL_CLASS_DTO_JSON_CONVERTER;
 
+@Service
 public class SchoolClassService {
 
-    private final SchoolClassJdbcRepository schoolClassJdbcRepository;
+    private final SchoolClassRepository schoolClassRepository;
 
-    public SchoolClassService() {
-        schoolClassJdbcRepository = SCHOOL_CLASS_JDBC_REPOSITORY;
+    @Autowired
+    public SchoolClassService(SchoolClassRepository schoolClassRepository) {
+        this.schoolClassRepository = schoolClassRepository;
     }
 
-    public boolean save(SchoolClassDto schoolClassDto, int studentsCount) {
-        SchoolClass schoolClass = schoolClassJdbcRepository.save(SCHOOL_CLASS_DTO_JSON_CONVERTER.createDao(schoolClassDto, studentsCount));
-        return schoolClass != null;
+    public SchoolClassDto save(SchoolClassDto schoolClassDto, int studentsCount) {
+        SchoolClass schoolClass = schoolClassRepository.save(SCHOOL_CLASS_DTO_JSON_CONVERTER.createDao(schoolClassDto, studentsCount));
+        return SCHOOL_CLASS_DTO_JSON_CONVERTER.createDto(schoolClass);
     }
 
     public boolean delete(int id) {
-        return schoolClassJdbcRepository.delete(id);
+        return schoolClassRepository.delete(id);
     }
 
     public SchoolClassDto get(int id) {
-        SchoolClass schoolClass = schoolClassJdbcRepository.get(id);
+        SchoolClass schoolClass = schoolClassRepository.get(id);
         if (schoolClass == null) {
             return null;
         }
@@ -35,13 +38,8 @@ public class SchoolClassService {
     }
 
     public List<SchoolClassDto> getAll() {
-        return schoolClassJdbcRepository.getAll().stream()
+        return schoolClassRepository.getAll().stream()
                 .map(SCHOOL_CLASS_DTO_JSON_CONVERTER::createDto)
                 .toList();
     }
-
-    public boolean addOrRemoveTeacher (int classId, Integer teacherId) {
-        return schoolClassJdbcRepository.addOrRemoveTeacher(classId, teacherId);
-    }
-
 }

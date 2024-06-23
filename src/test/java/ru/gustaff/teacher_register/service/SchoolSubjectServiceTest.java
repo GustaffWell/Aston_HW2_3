@@ -1,39 +1,43 @@
 package ru.gustaff.teacher_register.service;
 
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import ru.gustaff.teacher_register.BaseTest;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 import ru.gustaff.teacher_register.dto.SchoolSubjectDto;
 
 import java.util.List;
 
 import static ru.gustaff.teacher_register.service.test_data.SchoolSubjectServiceTestData.*;
 
-public class SchoolSubjectServiceTest extends BaseTest {
+@Sql(executionPhase= Sql.ExecutionPhase.BEFORE_TEST_METHOD,scripts="classpath:db/initDB.sql")
+class SchoolSubjectServiceTest extends AbstractServiceTest {
 
-    private final SchoolSubjectService schoolSubjectService = new SchoolSubjectService();
+    @Autowired
+    private SchoolSubjectService schoolSubjectService;
 
     @Test
-    public void get() {
+    void get() {
         Assertions.assertEquals(SUBJECT_1_DTO, schoolSubjectService.get(100_003));
     }
 
     @Test
-    public void getAll() {
+    void getAll() {
         List<SchoolSubjectDto> schoolSubjectDtoList = ALL_SUBJECTS_DTO;
         Assertions.assertEquals(schoolSubjectDtoList, schoolSubjectService.getAll());
     }
 
     @Test
-    public void save() {
+    void save() {
         SchoolSubjectDto newSchoolSubjectDto = NEW_SUBJECT_DTO;
         newSchoolSubjectDto.setId(null);
-        Assertions.assertEquals(true, schoolSubjectService.save(SUBJECT_1_DTO, 1950));
-        Assertions.assertEquals(true, schoolSubjectService.save(newSchoolSubjectDto, 1950));
+        Assertions.assertEquals(SUBJECT_1_DTO, schoolSubjectService.save(SUBJECT_1_DTO, 1950));
+        newSchoolSubjectDto.setId(100016);
+        Assertions.assertEquals(newSchoolSubjectDto, schoolSubjectService.save(newSchoolSubjectDto, 1950));
     }
 
     @Test
-    public void delete() {
+    void delete() {
         Assertions.assertEquals(true, schoolSubjectService.delete(100_003));
     }
 }

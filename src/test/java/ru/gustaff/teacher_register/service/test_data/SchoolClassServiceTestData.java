@@ -2,10 +2,11 @@ package ru.gustaff.teacher_register.service.test_data;
 
 import ru.gustaff.teacher_register.dto.SchoolClassDto;
 
+import java.io.IOException;
 import java.util.List;
 
 import static ru.gustaff.teacher_register.repository.test_data.SchoolClassRepositoryTestData.*;
-import static ru.gustaff.teacher_register.service.converters.SchoolClassDtoJsonConverter.SCHOOL_CLASS_DTO_JSON_CONVERTER;
+import static ru.gustaff.teacher_register.service.converters.SchoolClassDtoConverter.SCHOOL_CLASS_DTO_JSON_CONVERTER;
 
 public class SchoolClassServiceTestData {
     public static final SchoolClassDto SCHOOL_CLASS_1_DTO = SCHOOL_CLASS_DTO_JSON_CONVERTER.createDto(SCHOOL_CLASS_1);
@@ -18,4 +19,16 @@ public class SchoolClassServiceTestData {
     public static List<SchoolClassDto> ALL_CLASSES_DTO = List.of(SCHOOL_CLASS_1_DTO, SCHOOL_CLASS_2_DTO,
             SCHOOL_CLASS_3_DTO, SCHOOL_CLASS_4_DTO);
 
+    public static String getAllClassesJson() throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        ALL_CLASSES_DTO.forEach(classDto ->
+        {
+            try {
+                stringBuilder.append(SCHOOL_CLASS_DTO_JSON_CONVERTER.toJson(classDto));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return stringBuilder.toString();
+    }
 }

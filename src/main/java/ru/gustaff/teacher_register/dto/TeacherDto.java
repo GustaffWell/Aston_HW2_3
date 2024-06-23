@@ -1,15 +1,15 @@
 package ru.gustaff.teacher_register.dto;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class TeacherDto {
     private Integer id;
     private String name;
-    private List<SchoolSubjectDto> subjects;
-    private List<SchoolClassDto> classes;
+    private Set<SchoolSubjectDto> subjects;
+    private Set<SchoolClassDto> classes;
 
-    public TeacherDto(Integer id, String name, List<SchoolSubjectDto> subjects, List<SchoolClassDto> classes) {
+    public TeacherDto(Integer id, String name, Set<SchoolSubjectDto> subjects, Set<SchoolClassDto> classes) {
         this.id = id;
         this.name = name;
         this.subjects = subjects;
@@ -35,19 +35,19 @@ public class TeacherDto {
         this.name = name;
     }
 
-    public List<SchoolSubjectDto> getSubjects() {
+    public Set<SchoolSubjectDto> getSubjects() {
         return subjects;
     }
 
-    public void setSubjects(List<SchoolSubjectDto> subjects) {
+    public void setSubjects(Set<SchoolSubjectDto> subjects) {
         this.subjects = subjects;
     }
 
-    public List<SchoolClassDto> getClasses() {
+    public Set<SchoolClassDto> getClasses() {
         return classes;
     }
 
-    public void setClasses(List<SchoolClassDto> classes) {
+    public void setClasses(Set<SchoolClassDto> classes) {
         this.classes = classes;
     }
 

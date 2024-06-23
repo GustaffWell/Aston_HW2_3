@@ -34,7 +34,7 @@ CREATE TABLE school.school_class
 (
     id                  INTEGER PRIMARY KEY DEFAULT nextval('school.global_seq'),
     teacher_id          INTEGER,
-    number_and_letter   VARCHAR             NOT NULL,
+    name                VARCHAR             NOT NULL,
     students_count      INT                 NOT NULL,
     FOREIGN KEY (teacher_id) REFERENCES school.teacher (id)
 );
@@ -59,7 +59,7 @@ VALUES (100000, 100003),                            --100007
        (100001, 100006),                            --100010
        (100002, 100006);                            --100011
 
-INSERT INTO school.school_class (teacher_id, number_and_letter, students_count)
+INSERT INTO school.school_class (teacher_id, name, students_count)
 VALUES (100000, '11а', 28),                         --100012
        (100001, '11б', 25),                         --100013
        (100001, '10а', 23),                         --100014

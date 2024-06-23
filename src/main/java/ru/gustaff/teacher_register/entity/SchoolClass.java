@@ -1,15 +1,21 @@
-package ru.gustaff.teacher_register.model;
+package ru.gustaff.teacher_register.entity;
 
+import jakarta.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "school_class", schema = "school")
 public class SchoolClass extends AbstractBaseEntity {
 
+    @Column(name = "students_count", nullable = false)
     private int studentsCount;
 
     public SchoolClass(Integer id, String name, int studentsCount) {
         super(id, name);
         this.studentsCount = studentsCount;
     }
+
+    public SchoolClass() {}
 
     public int getStudentsCount() {
         return studentsCount;

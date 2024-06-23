@@ -1,13 +1,13 @@
 package ru.gustaff.teacher_register.service.converters;
 
 import ru.gustaff.teacher_register.dto.SchoolSubjectDto;
-import ru.gustaff.teacher_register.model.SchoolSubject;
+import ru.gustaff.teacher_register.entity.SchoolSubject;
 
-public class SchoolSubjectDtoJsonConverter extends AbstractDtoJsonConverter<SchoolSubjectDto> {
+public class SchoolSubjectDtoConverter extends AbstractDtoJsonConverter<SchoolSubjectDto> {
 
-    public static final SchoolSubjectDtoJsonConverter SCHOOL_SUBJECT_DTO_JSON_CONVERTER = new SchoolSubjectDtoJsonConverter();
+    public static final SchoolSubjectDtoConverter SCHOOL_SUBJECT_DTO_JSON_CONVERTER = new SchoolSubjectDtoConverter();
 
-    private SchoolSubjectDtoJsonConverter() {
+    protected SchoolSubjectDtoConverter() {
         super(SchoolSubjectDto.class);
     }
 

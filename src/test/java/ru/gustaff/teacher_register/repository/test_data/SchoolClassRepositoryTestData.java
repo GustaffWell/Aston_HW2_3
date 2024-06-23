@@ -1,6 +1,6 @@
 package ru.gustaff.teacher_register.repository.test_data;
 
-import ru.gustaff.teacher_register.model.SchoolClass;
+import ru.gustaff.teacher_register.entity.SchoolClass;
 
 import java.util.List;
 

@@ -1,19 +1,40 @@
-package ru.gustaff.teacher_register.model;
+package ru.gustaff.teacher_register.entity;
 
-import java.util.List;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import jakarta.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
+@Entity
+@Table(name = "teacher", schema = "school")
 public class Teacher extends AbstractBaseEntity{
 
+    @Column(name = "year_of_birth", nullable = false)
     private int yearOfBirth;
-    private List<SchoolSubject> subjects;
-    private List<SchoolClass> supervisedClasses;
 
-    public Teacher(Integer id, String name, int yearOfBirth, List<SchoolSubject> subjects, List<SchoolClass> supervisedClasses) {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(name = "teacher_subject",
+        joinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "subject_id", referencedColumnName = "id"))
+    private Set<SchoolSubject> subjects;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    @JoinColumn(name = "teacher_id")
+    private Set<SchoolClass> supervisedClasses;
+
+
+    public Teacher(Integer id, String name, int yearOfBirth, Set<SchoolSubject> subjects, Set<SchoolClass> supervisedClasses) {
         super(id, name);
         this.yearOfBirth = yearOfBirth;
         this.subjects = subjects;
         this.supervisedClasses = supervisedClasses;
+    }
+
+    public Teacher() {
     }
 
     public int getYearOfBirth() {
@@ -24,19 +45,19 @@ public class Teacher extends AbstractBaseEntity{
         this.yearOfBirth = yearOfBirth;
     }
 
-    public List<SchoolSubject> getSubjects() {
+    public Set<SchoolSubject> getSubjects() {
         return subjects;
     }
 
-    public void setSubjects(List<SchoolSubject> subjects) {
+    public void setSubjects(Set<SchoolSubject> subjects) {
         this.subjects = subjects;
     }
 
-    public List<SchoolClass> getSupervisedClasses() {
+    public Set<SchoolClass> getSupervisedClasses() {
         return supervisedClasses;
     }
 
-    public void setSupervisedClasses(List<SchoolClass> supervisedClasses) {
+    public void setSupervisedClasses(Set<SchoolClass> supervisedClasses) {
         this.supervisedClasses = supervisedClasses;
     }
 
